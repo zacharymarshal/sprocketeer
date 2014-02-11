@@ -48,4 +48,16 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             'message'
         );
     }
+
+    public function testNonDirectiveComment()
+    {
+        $this->assertEquals(
+            array(
+                realpath(__DIR__ . '/../../assets/js/sub/01.js.coffee'),
+                realpath(__DIR__ . '/../../assets/js/05.js'),
+            ),
+            $this->parser->getJsFiles('05'),
+            'message'
+        );
+    }
 }
