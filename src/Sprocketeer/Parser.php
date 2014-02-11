@@ -37,7 +37,9 @@ class Parser
         $files = array();
         $self_required = false;
         foreach ($lines as $line) {
-            preg_match("/^\W*=\s*(\w+)\s*(.*)$/", $line, $line_matches);
+            if (!preg_match("/^\W*=\s*(\w+)\s*(.*)$/", $line, $line_matches)) {
+                continue;
+            }
             $directive = $line_matches[1];
             $require_manifest = $line_matches[2];
             switch ($directive) {
