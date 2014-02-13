@@ -65,20 +65,15 @@ class Parser
         $web_paths = array();
         foreach ($this->getJsFiles($manifest) as $absolute_path) {
             foreach ($this->paths as $path) {
-                $web_paths[] = "{$prefix}" . $this->stripFromBeginning($path, $absolute_path);
+                // Strip off the path if it is found in the absolute path
+                if (substr($absolute_path, 0, strlen($path)) == $path) {
+                    $absolute_path = substr($absolute_path, strlen($path));
+                    $web_paths[] = $prefix . $absolute_path;
+                }
             }
         }
 
         return $web_paths;
-    }
-
-    protected function stripFromBeginning($prefix, $str)
-    {
-        if (substr($str, 0, strlen($prefix)) == $prefix) {
-            $str = substr($str, strlen($prefix));
-        }
-
-        return $str;
     }
 
     protected function getAbsolutePath($filename)

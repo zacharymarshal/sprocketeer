@@ -9,7 +9,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->parser = new \Sprocketeer\Parser(array(
-            realpath(__DIR__ . '/../../assets/js')
+            realpath(__DIR__ . '/../../assets/js'),
+            realpath(__DIR__ . '/../../assets/provider')
         ));
     }
 
