@@ -14,7 +14,8 @@ class Parser
 
     public function getJsFiles($manifest)
     {
-        $absolute_path = $this->getAbsolutePath($manifest);
+        $path_info = $this->getPathInfo($manifest);
+        $absolute_path = $path_info['absolute_path'];
         // Get only the header, we don't want any requires after that
         preg_match(
             "/^(
@@ -76,12 +77,16 @@ class Parser
         return $web_paths;
     }
 
-    protected function getAbsolutePath($filename)
+    protected function getPathInfo($filename)
     {
         foreach ($this->paths as $path) {
             $files = glob("{$path}/{$filename}*");
             if (isset($files[0])) {
-                return $files[0];
+                return array(
+                    'absolute_path'    => $files[0],
+                    'search_path'      => $path,
+                    'requested_asset'  => $filename
+                );
             }
         }
         // throw an exception?
