@@ -1,2 +1,2 @@
-#= require 02
+#= require 02.js.coffee
 console.log 'anything'

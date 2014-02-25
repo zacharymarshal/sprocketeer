@@ -1,1 +1,1 @@
-#= require testing/01
+#= require testing/01.js.coffee

@@ -21,7 +21,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 realpath(__DIR__ . '/../../assets/js/02.js.coffee'),
                 realpath(__DIR__ . '/../../assets/js/01.js.coffee'),
             ),
-            $this->parser->getJsFiles('01'),
+            $this->parser->getJsFiles('01.js.coffee'),
             'message'
         );
     }
@@ -33,7 +33,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 realpath(__DIR__ . '/../../assets/js/03.js.coffee'),
                 realpath(__DIR__ . '/../../assets/js/02.js.coffee'),
             ),
-            $this->parser->getJsFiles('03'),
+            $this->parser->getJsFiles('03.js.coffee'),
             'message'
         );
     }
@@ -45,7 +45,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 '/assets/sub/01.js.coffee',
                 '/assets/04.js.coffee',
             ),
-            $this->parser->getJsWebPaths('04', '/assets'),
+            $this->parser->getJsWebPaths('04.js.coffee', '/assets'),
             'message'
         );
     }
@@ -57,7 +57,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 realpath(__DIR__ . '/../../assets/js/sub/01.js.coffee'),
                 realpath(__DIR__ . '/../../assets/js/05.js'),
             ),
-            $this->parser->getJsFiles('05'),
+            $this->parser->getJsFiles('05.js'),
             'message'
         );
     }

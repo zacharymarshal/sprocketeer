@@ -80,7 +80,7 @@ class Parser
     protected function getPathInfo($filename)
     {
         foreach ($this->paths as $path) {
-            $files = glob("{$path}/{$filename}*");
+            $files = glob("{$path}/{$filename}");
             if (isset($files[0])) {
                 return array(
                     'absolute_path'    => $files[0],

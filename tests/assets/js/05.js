@@ -1,5 +1,5 @@
 /*
- *= require sub/01
+ *= require sub/01.js.coffee
  *=
  */
 //
