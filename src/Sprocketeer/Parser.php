@@ -80,10 +80,10 @@ class Parser
     protected function getPathInfo($filename)
     {
         foreach ($this->paths as $path) {
-            $files = glob("{$path}/{$filename}");
-            if (isset($files[0])) {
+            $full_path = "{$path}/{$filename}";
+            if (file_exists($full_path)) {
                 return array(
-                    'absolute_path'    => $files[0],
+                    'absolute_path'    => $full_path,
                     'search_path'      => $path,
                     'requested_asset'  => $filename
                 );
