@@ -2,6 +2,8 @@
 
 namespace Sprocketeer;
 
+use Exception;
+
 class Parser
 {
     protected $paths;
@@ -14,7 +16,8 @@ class Parser
 
     public function getJsFiles($manifest)
     {
-        $path_info = $this->getPathInfo($manifest);
+        list($search_path_name, $filename) = explode('/', $manifest, 2);
+        $path_info = $this->getPathInfo($search_path_name, $filename);
         $absolute_path = $path_info['absolute_path'];
         // Get only the header, we don't want any requires after that
         preg_match(
@@ -45,7 +48,7 @@ class Parser
             $require_manifest = $line_matches[2];
             switch ($directive) {
                 case 'require':
-                    $files = array_merge($files, $this->getJsFiles($require_manifest));
+                    $files = array_merge($files, $this->getJsFiles(dirname($manifest) . '/' . $require_manifest));
                     break;
                 case 'require_self':
                     $files[] = $absolute_path;
@@ -77,18 +80,23 @@ class Parser
         return $web_paths;
     }
 
-    protected function getPathInfo($filename)
+    protected function getPathInfo($search_path_name, $filename)
     {
-        foreach ($this->paths as $path) {
-            $full_path = "{$path}/{$filename}";
-            if (file_exists($full_path)) {
-                return array(
-                    'absolute_path'    => $full_path,
-                    'search_path'      => $path,
-                    'requested_asset'  => $filename
-                );
-            }
+        if (!isset($this->paths[$search_path_name])) {
+            throw new Exception("Unknown search path name: '{$search_path_name}'.");
         }
-        // throw an exception?
+
+        $search_path = $this->paths[$search_path_name];
+        $full_path   = "{$search_path}/{$filename}";
+        if (!file_exists($full_path)) {
+            throw new Exception("File could not be found: {$full_path}");
+        }
+
+        return array(
+            'absolute_path'    => $full_path,
+            'search_path_name' => $search_path_name,
+            'search_path'      => $search_path,
+            'requested_asset'  => $filename
+        );
     }
 }

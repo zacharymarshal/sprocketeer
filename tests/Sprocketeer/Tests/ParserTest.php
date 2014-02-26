@@ -9,8 +9,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->parser = new \Sprocketeer\Parser(array(
-            realpath(__DIR__ . '/../../assets/js'),
-            realpath(__DIR__ . '/../../assets/provider')
+            'js'       => realpath(__DIR__ . '/../../assets/js'),
+            'provider' => realpath(__DIR__ . '/../../assets/provider')
         ));
     }
 
@@ -21,7 +21,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 realpath(__DIR__ . '/../../assets/js/02.js.coffee'),
                 realpath(__DIR__ . '/../../assets/js/01.js.coffee'),
             ),
-            $this->parser->getJsFiles('01.js.coffee'),
+            $this->parser->getJsFiles('js/01.js.coffee'),
             'message'
         );
     }
@@ -33,7 +33,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 realpath(__DIR__ . '/../../assets/js/03.js.coffee'),
                 realpath(__DIR__ . '/../../assets/js/02.js.coffee'),
             ),
-            $this->parser->getJsFiles('03.js.coffee'),
+            $this->parser->getJsFiles('js/03.js.coffee'),
             'message'
         );
     }
@@ -45,7 +45,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 '/assets/sub/01.js.coffee',
                 '/assets/04.js.coffee',
             ),
-            $this->parser->getJsWebPaths('04.js.coffee', '/assets'),
+            $this->parser->getJsWebPaths('js/04.js.coffee', '/assets'),
             'message'
         );
     }
@@ -57,7 +57,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 realpath(__DIR__ . '/../../assets/js/sub/01.js.coffee'),
                 realpath(__DIR__ . '/../../assets/js/05.js'),
             ),
-            $this->parser->getJsFiles('05.js'),
+            $this->parser->getJsFiles('js/05.js'),
             'message'
         );
     }
