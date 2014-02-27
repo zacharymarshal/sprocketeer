@@ -18,10 +18,20 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             array(
-                realpath(__DIR__ . '/../../assets/js/02.js.coffee'),
-                realpath(__DIR__ . '/../../assets/js/01.js.coffee'),
+                array(
+                    'absolute_path'    => realpath(__DIR__ . '/../../assets/js/02.js.coffee'),
+                    'search_path_name' => 'js',
+                    'search_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'  => '02.js.coffee'
+                ),
+                array(
+                    'absolute_path'    => realpath(__DIR__ . '/../../assets/js/01.js.coffee'),
+                    'search_path_name' => 'js',
+                    'search_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'  => '01.js.coffee'
+                ),
             ),
-            $this->parser->getJsFiles('js/01.js.coffee'),
+            $this->parser->getPathInfoFromManifest('js/01.js.coffee'),
             'message'
         );
     }
@@ -30,10 +40,20 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             array(
-                realpath(__DIR__ . '/../../assets/js/03.js.coffee'),
-                realpath(__DIR__ . '/../../assets/js/02.js.coffee'),
+                array(
+                    'absolute_path'    => realpath(__DIR__ . '/../../assets/js/03.js.coffee'),
+                    'search_path_name' => 'js',
+                    'search_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'  => '03.js.coffee'
+                ),
+                array(
+                    'absolute_path'    => realpath(__DIR__ . '/../../assets/js/02.js.coffee'),
+                    'search_path_name' => 'js',
+                    'search_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'  => '02.js.coffee'
+                ),
             ),
-            $this->parser->getJsFiles('js/03.js.coffee'),
+            $this->parser->getPathInfoFromManifest('js/03.js.coffee'),
             'message'
         );
     }
@@ -54,10 +74,20 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             array(
-                realpath(__DIR__ . '/../../assets/js/sub/01.js.coffee'),
-                realpath(__DIR__ . '/../../assets/js/05.js'),
+                array(
+                    'absolute_path'    => realpath(__DIR__ . '/../../assets/js/sub/01.js.coffee'),
+                    'search_path_name' => 'js',
+                    'search_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'  => 'sub/01.js.coffee'
+                ),
+                array(
+                    'absolute_path'    => realpath(__DIR__ . '/../../assets/js/05.js'),
+                    'search_path_name' => 'js',
+                    'search_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'  => '05.js'
+                ),
             ),
-            $this->parser->getJsFiles('js/05.js'),
+            $this->parser->getPathInfoFromManifest('js/05.js'),
             'message'
         );
     }

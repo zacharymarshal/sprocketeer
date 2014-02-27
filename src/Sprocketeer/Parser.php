@@ -14,7 +14,7 @@ class Parser
         $this->paths = $paths;
     }
 
-    public function getJsFiles($manifest)
+    public function getPathInfoFromManifest($manifest)
     {
         list($search_path_name, $filename) = explode('/', $manifest, 2);
         $path_info = $this->getPathInfo($search_path_name, $filename);
@@ -33,7 +33,7 @@ class Parser
         );
 
         if (!$header) {
-            return array($absolute_path);
+            return array($path_info);
         }
 
         $lines = explode("\n", $header[0]);
@@ -48,17 +48,20 @@ class Parser
             $require_manifest = $line_matches[2];
             switch ($directive) {
                 case 'require':
-                    $files = array_merge($files, $this->getJsFiles(dirname($manifest) . '/' . $require_manifest));
+                    $sub_files = $this->getPathInfoFromManifest(
+                        dirname($manifest) . '/' . $require_manifest
+                    );
+                    $files = array_merge($files, $sub_files);
                     break;
                 case 'require_self':
-                    $files[] = $absolute_path;
+                    $files[] = $path_info;
                     $self_required = true;
                     break;
             }
         }
 
         if (!$self_required) {
-            $files[] = $absolute_path;
+            $files[] = $path_info;
         }
 
         return $files;
@@ -67,7 +70,8 @@ class Parser
     public function getJsWebPaths($manifest, $prefix = '/assets')
     {
         $web_paths = array();
-        foreach ($this->getJsFiles($manifest) as $absolute_path) {
+        foreach ($this->getPathInfoFromManifest($manifest) as $path_info) {
+            $absolute_path = $path_info['absolute_path'];
             foreach ($this->paths as $path) {
                 // Strip off the path if it is found in the absolute path
                 if (substr($absolute_path, 0, strlen($path)) == $path) {
