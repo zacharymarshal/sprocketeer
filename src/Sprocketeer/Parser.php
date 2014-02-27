@@ -96,11 +96,19 @@ class Parser
             throw new Exception("File could not be found: {$full_path}");
         }
 
+        $real_absolute_path  = realpath($full_path);
+        $real_search_path    = realpath($search_path);
+        $real_requested_path = ltrim(
+            str_replace($real_search_path, '', $real_absolute_path),
+            '/'
+        );
+
         return array(
-            'absolute_path'    => $full_path,
+            'absolute_path'    => $real_absolute_path,
             'search_path_name' => $search_path_name,
-            'search_path'      => $search_path,
-            'requested_asset'  => $filename
+            'search_path'      => $real_search_path,
+            'requested_asset'  => $real_requested_path,
+            'canonical_path'   => $search_path_name . '/' . $real_requested_path,
         );
     }
 }
