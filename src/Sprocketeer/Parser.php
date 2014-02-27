@@ -84,7 +84,7 @@ class Parser
         return $web_paths;
     }
 
-    protected function getPathInfo($search_path_name, $filename)
+    public function getPathInfo($search_path_name, $filename)
     {
         if (!isset($this->paths[$search_path_name])) {
             throw new Exception("Unknown search path name: '{$search_path_name}'.");
