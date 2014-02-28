@@ -67,23 +67,6 @@ class Parser
         return $files;
     }
 
-    public function getJsWebPaths($manifest, $prefix = '/assets')
-    {
-        $web_paths = array();
-        foreach ($this->getPathInfoFromManifest($manifest) as $path_info) {
-            $absolute_path = $path_info['absolute_path'];
-            foreach ($this->paths as $path) {
-                // Strip off the path if it is found in the absolute path
-                if (substr($absolute_path, 0, strlen($path)) == $path) {
-                    $absolute_path = substr($absolute_path, strlen($path));
-                    $web_paths[] = $prefix . $absolute_path;
-                }
-            }
-        }
-
-        return $web_paths;
-    }
-
     public function getPathInfo($search_path_name, $filename)
     {
         if (!isset($this->paths[$search_path_name])) {

@@ -62,18 +62,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testJsWebPaths()
-    {
-        $this->assertEquals(
-            array(
-                '/assets/sub/01.js.coffee',
-                '/assets/04.js.coffee',
-            ),
-            $this->parser->getJsWebPaths('js/04.js.coffee', '/assets'),
-            'message'
-        );
-    }
-
     public function testNonDirectiveComment()
     {
         $this->assertEquals(
