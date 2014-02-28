@@ -91,7 +91,7 @@ class Parser
             'search_path_name' => $search_path_name,
             'search_path'      => $real_search_path,
             'requested_asset'  => $real_requested_path,
-            'canonical_path'   => $search_path_name . '/' . $real_requested_path,
+            'sprocketeer_path' => $search_path_name . '/' . $real_requested_path,
         );
     }
 }
