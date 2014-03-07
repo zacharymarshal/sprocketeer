@@ -48,9 +48,13 @@ class Parser
             $require_manifest = $line_matches[2];
             switch ($directive) {
                 case 'require':
-                    $sub_files = $this->getPathInfoFromManifest(
-                        dirname($manifest) . '/' . $require_manifest
-                    );
+                    $sub_manifest = null;
+                    if ('/' === substr($require_manifest, 0, 1)) {
+                        $sub_manifest = substr($require_manifest, 1);
+                    } else {
+                        $sub_manifest = dirname($manifest) . '/' . $require_manifest;
+                    }
+                    $sub_files = $this->getPathInfoFromManifest($sub_manifest);
                     $files = array_merge($files, $sub_files);
                     break;
                 case 'require_self':

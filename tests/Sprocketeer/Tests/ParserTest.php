@@ -38,6 +38,37 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRequireFromSpecificSearchPath()
+    {
+        $this->assertEquals(
+            array(
+                array(
+                    'absolute_path'    => realpath(__DIR__ . '/../../assets/js/02.js.coffee'),
+                    'search_path_name' => 'js',
+                    'search_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'  => '02.js.coffee',
+                    'sprocketeer_path' => 'js/02.js.coffee',
+                ),
+                array(
+                    'absolute_path'    => realpath(__DIR__ . '/../../assets/provider/testing/01.js.coffee'),
+                    'search_path_name' => 'provider',
+                    'search_path'      => realpath(__DIR__ . '/../../assets/provider'),
+                    'requested_asset'  => 'testing/01.js.coffee',
+                    'sprocketeer_path' => 'provider/testing/01.js.coffee',
+                ),
+                array(
+                    'absolute_path'    => realpath(__DIR__ . '/../../assets/js/07.js.coffee'),
+                    'search_path_name' => 'js',
+                    'search_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'  => '07.js.coffee',
+                    'sprocketeer_path' => 'js/07.js.coffee',
+                ),
+            ),
+            $this->parser->getPathInfoFromManifest('js/07.js.coffee'),
+            'message'
+        );
+    }
+
     public function testRequireSelf()
     {
         $this->assertEquals(
