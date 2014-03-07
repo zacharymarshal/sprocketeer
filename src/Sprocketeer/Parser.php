@@ -16,9 +16,9 @@ class Parser
 
     public function getPathInfoFromManifest($manifest)
     {
-        list($search_path_name, $filename) = explode('/', $manifest, 2);
-        $path_info = $this->getPathInfo($search_path_name, $filename);
+        $path_info     = $this->getPathInfo($manifest);
         $absolute_path = $path_info['absolute_path'];
+
         // Get only the header, we don't want any requires after that
         preg_match(
             "/^(
@@ -71,8 +71,9 @@ class Parser
         return $files;
     }
 
-    public function getPathInfo($search_path_name, $filename)
+    public function getPathInfo($manifest)
     {
+        list($search_path_name, $filename) = explode('/', $manifest, 2);
         if (!isset($this->paths[$search_path_name])) {
             throw new Exception("Unknown search path name: '{$search_path_name}'.");
         }
