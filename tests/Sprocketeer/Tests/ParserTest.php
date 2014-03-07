@@ -69,6 +69,23 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRequireWithoutReadingManifest()
+    {
+        $this->assertEquals(
+            array(
+                array(
+                    'absolute_path'      => realpath(__DIR__ . '/../../assets/js/01.js.coffee'),
+                    'category_path_name' => 'js',
+                    'category_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'    => '01.js.coffee',
+                    'sprocketeer_path'   => 'js/01.js.coffee',
+                ),
+            ),
+            $this->parser->getPathInfoFromManifest('js/01.js.coffee', false),
+            'message'
+        );
+    }
+
     public function testRequireSelf()
     {
         $this->assertEquals(

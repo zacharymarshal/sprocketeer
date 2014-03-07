@@ -14,10 +14,14 @@ class Parser
         $this->paths = $paths;
     }
 
-    public function getPathInfoFromManifest($manifest)
+    public function getPathInfoFromManifest($manifest, $read_manifest = true)
     {
         $path_info     = $this->getPathInfo($manifest);
         $absolute_path = $path_info['absolute_path'];
+
+        if (!$read_manifest) {
+            return array($path_info);
+        }
 
         // Get only the header, we don't want any requires after that
         preg_match(
