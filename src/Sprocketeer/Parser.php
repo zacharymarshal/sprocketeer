@@ -73,30 +73,30 @@ class Parser
 
     public function getPathInfo($manifest)
     {
-        list($search_path_name, $filename) = explode('/', $manifest, 2);
-        if (!isset($this->paths[$search_path_name])) {
-            throw new Exception("Unknown search path name: '{$search_path_name}'.");
+        list($category_path_name, $filename) = explode('/', $manifest, 2);
+        if (!isset($this->paths[$category_path_name])) {
+            throw new Exception("Unknown category path name: '{$category_path_name}'.");
         }
 
-        $search_path = $this->paths[$search_path_name];
-        $full_path   = "{$search_path}/{$filename}";
+        $category_path = $this->paths[$category_path_name];
+        $full_path   = "{$category_path}/{$filename}";
         if (!file_exists($full_path)) {
             throw new Exception("File could not be found: {$full_path}");
         }
 
         $real_absolute_path  = realpath($full_path);
-        $real_search_path    = realpath($search_path);
+        $real_category_path  = realpath($category_path);
         $real_requested_path = ltrim(
-            str_replace($real_search_path, '', $real_absolute_path),
+            str_replace($real_category_path, '', $real_absolute_path),
             '/'
         );
 
         return array(
-            'absolute_path'    => $real_absolute_path,
-            'search_path_name' => $search_path_name,
-            'search_path'      => $real_search_path,
-            'requested_asset'  => $real_requested_path,
-            'sprocketeer_path' => $search_path_name . '/' . $real_requested_path,
+            'absolute_path'      => $real_absolute_path,
+            'category_path_name' => $category_path_name,
+            'category_path'      => $real_category_path,
+            'requested_asset'    => $real_requested_path,
+            'sprocketeer_path'   => $category_path_name . '/' . $real_requested_path,
         );
     }
 }
