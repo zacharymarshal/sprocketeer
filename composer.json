@@ -1,9 +1,9 @@
 {
-  "name": "zacharyrankin/Sprocketeer",
+  "name": "zacharyrankin/sprocketeer",
   "type": "library",
   "description": "Sprocketeer is a PHP library for getting a simple list of files from a sprocket-like manifest.",
   "keywords": ["php", "sprockets", "asset", "coffeescript", "sass"],
-  "homepage": "http://github.com/zacharyrankin/Sprocketeer",
+  "homepage": "http://github.com/zacharyrankin/sprocketeer",
   "license": "MIT",
   "authors": [
     {
