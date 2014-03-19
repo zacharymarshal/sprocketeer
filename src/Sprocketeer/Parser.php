@@ -7,8 +7,7 @@ use Exception;
 class Parser
 {
     protected $paths;
-    protected $debug = true;
-
+    
     public function __construct($paths)
     {
         $this->paths = $paths;
@@ -16,12 +15,13 @@ class Parser
 
     public function getPathInfoFromManifest($manifest, $read_manifest = true)
     {
-        $path_info     = $this->getPathInfo($manifest);
-        $absolute_path = $path_info['absolute_path'];
+        $path_info = $this->getPathInfo($manifest);
 
         if (!$read_manifest) {
             return array($path_info);
         }
+
+        $absolute_path = $path_info['absolute_path'];
 
         // Get only the header, we don't want any requires after that
         preg_match(
@@ -75,7 +75,7 @@ class Parser
         return $files;
     }
 
-    public function getPathInfo($manifest)
+    protected function getPathInfo($manifest)
     {
         list($category_path_name, $filename) = explode('/', $manifest, 2);
         if (!isset($this->paths[$category_path_name])) {
@@ -101,6 +101,7 @@ class Parser
             'category_path'      => $real_category_path,
             'requested_asset'    => $real_requested_path,
             'sprocketeer_path'   => $category_path_name . '/' . $real_requested_path,
+            'last_modified'      => filemtime($full_path),
         );
     }
 }
