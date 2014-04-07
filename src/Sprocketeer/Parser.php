@@ -3,6 +3,7 @@
 namespace Sprocketeer;
 
 use Exception;
+use DirectoryIterator;
 
 class Parser
 {
@@ -50,16 +51,38 @@ class Parser
             }
             $directive = $line_matches[1];
             $require_manifest = $line_matches[2];
+            $sub_manifest = null;
+            if ('/' === substr($require_manifest, 0, 1)) {
+                $sub_manifest = substr($require_manifest, 1);
+            } else {
+                $sub_manifest = dirname($manifest) . '/' . $require_manifest;
+            }
+
             switch ($directive) {
                 case 'require':
-                    $sub_manifest = null;
-                    if ('/' === substr($require_manifest, 0, 1)) {
-                        $sub_manifest = substr($require_manifest, 1);
-                    } else {
-                        $sub_manifest = dirname($manifest) . '/' . $require_manifest;
-                    }
                     $sub_files = $this->getPathInfoFromManifest($sub_manifest);
                     $files = array_merge($files, $sub_files);
+                    break;
+                case 'require_directory':
+                    $req_dir_path_info = $this->getPathInfo($sub_manifest);
+                    $files_from_folder = new DirectoryIterator(
+                        $req_dir_path_info['absolute_path']
+                    );
+                    foreach ($files_from_folder as $file) {
+                        if (!$file->isFile()) {
+                            continue;
+                        }
+                        $files = array_merge(
+                            $files,
+                            $this->getPathInfoFromManifest(
+                                str_replace(
+                                    $req_dir_path_info['absolute_path'],
+                                    $req_dir_path_info['sprocketeer_path'],
+                                    $file->getPathname()
+                                )
+                            )
+                        );
+                    }
                     break;
                 case 'require_self':
                     $files[] = $path_info;

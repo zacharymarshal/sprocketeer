@@ -143,4 +143,37 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             'message'
         );
     }
+
+    public function testRequireDirectory()
+    {
+        $this->assertEquals(
+            array(
+                array(
+                    'absolute_path'      => realpath(__DIR__ . '/../../assets/js/sub2/01.hbs'),
+                    'category_path_name' => 'js',
+                    'category_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'    => 'sub2/01.hbs',
+                    'sprocketeer_path'   => 'js/sub2/01.hbs',
+                    'last_modified'      => 1396804966,
+                ),
+                array(
+                    'absolute_path'      => realpath(__DIR__ . '/../../assets/js/sub2/02.hbs'),
+                    'category_path_name' => 'js',
+                    'category_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'    => 'sub2/02.hbs',
+                    'sprocketeer_path'   => 'js/sub2/02.hbs',
+                    'last_modified'      => 1396802034,
+                ),
+                array(
+                    'absolute_path'      => realpath(__DIR__ . '/../../assets/js/require_directory.js'),
+                    'category_path_name' => 'js',
+                    'category_path'      => realpath(__DIR__ . '/../../assets/js'),
+                    'requested_asset'    => 'require_directory.js',
+                    'sprocketeer_path'   => 'js/require_directory.js',
+                    'last_modified'      => 1396802234,
+                ),
+            ),
+            $this->parser->getPathInfoFromManifest('js/require_directory.js')
+        );
+    }
 }
